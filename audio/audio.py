@@ -13,7 +13,7 @@ def get_timestamps(file):
     tempo, beats = lr.beat.beat_track(bpm=120, y=y, sr=sr, hop_length=512, onset_envelope=onset_env)
     print(f'bpm:{tempo}')
     ts = lr.frames_to_time(beats, sr=sr)
-    ts = [0]+ts
+    ts = [0] + ts
     return len(ts), ts
 
 
@@ -33,24 +33,30 @@ def cut_file(t1, t2, file):
 
 
 if __name__ == '__main__':
-    cut_len = cut_file("00:01:23:00", "00:01:40:00", "foo.wav")
+    cut_len = cut_file("00:01:27:00", "00:01:45:00", "foo.wav")
 
     beats, timestamps = get_timestamps("foo_cut.wav")
     SIZE = (2048, 2048)
     COLOR = (0, 0, 0)
-    picture = ColorClip(SIZE, COLOR, duration=cut_len)
+    grad = color_gradient(SIZE,
+                          p1=tuple(np.random.randint(0, SIZE[0], (1, 2)).flatten()),
+                          p2=tuple(np.random.randint(0, SIZE[0], (1, 2)).flatten()),
+                          col1=np.random.randint(0, 255, (1, 3)).flatten().tolist(),
+                          col2=np.random.randint(0, 255, (1, 3)).flatten().tolist(),
+                          shape='linear')
+    picture = ImageClip(grad, transparent=True).set_duration(cut_len)
 
     duration = 0.3
     txt_clips = []
     for i, timestamp in enumerate(timestamps):
-        #txt_clip = TextClip("BEAT", fontsize=SIZE[0] / 16, color='white')
+        # txt_clip = TextClip("BEAT", fontsize=SIZE[0] / 16, color='white')
         grad = color_gradient(SIZE,
                               p1=tuple(np.random.randint(0, SIZE[0], (1, 2)).flatten()),
                               p2=tuple(np.random.randint(0, SIZE[0], (1, 2)).flatten()),
                               col1=np.random.randint(0, 255, (1, 3)).flatten().tolist(),
                               col2=np.random.randint(0, 255, (1, 3)).flatten().tolist(),
-                              offset=0.5, shape='linear')
-        txt_clip = ImageClip(grad,transparent=True)
+                              shape='linear')
+        txt_clip = ImageClip(grad, transparent=True)
         txt_clip = txt_clip.set_start(timestamp)
         txt_clip = txt_clip.set_pos('center').set_duration(duration)
         txt_clips.append(txt_clip)
