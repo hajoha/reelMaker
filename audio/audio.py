@@ -33,9 +33,6 @@ def cut_file(t1, t2, file):
 
 
 if __name__ == '__main__':
-    cut_len = cut_file("00:01:27:00", "00:01:45:00", "foo.wav")
-
-    beats, timestamps = get_timestamps("foo_cut.wav")
     SIZE = (2048, 2048)
     COLOR = (0, 0, 0)
     grad = color_gradient(SIZE,
@@ -61,7 +58,7 @@ if __name__ == '__main__':
         txt_clip = txt_clip.set_pos('center').set_duration(duration)
         txt_clips.append(txt_clip)
 
-    audio = AudioFileClip(r"foo_cut.wav").subclip(0, cut_len)
+    audio = AudioFileClip(r"../files/foo_cut.wav").subclip(0, cut_len)
 
     video_with_new_audio = picture.set_audio(audio)
 
