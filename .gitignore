@@ -1,6 +1,3 @@
-*.wav
-*.mp3
-*.mp4
-*.png
+files
 .DS_Store
 .idea
