@@ -26,7 +26,10 @@ def generate_vid(size=(124, 124), timestamps=[], clip_duration=10, video_name="t
                               shape='linear')
         txt_clip = ImageClip(grad, transparent=True)
         txt_clip = txt_clip.set_start(timestamp)
-        txt_clip = txt_clip.set_pos('center').set_duration(duration)
+        if i+1 == len(timestamps):
+            txt_clip = txt_clip.set_pos('center').set_duration(clip_duration-timestamp)
+        else:
+            txt_clip = txt_clip.set_pos('center').set_duration(timestamps[i+1]-timestamp)
         txt_clips.append(txt_clip)
 
     audio = AudioFileClip(f"{audio_name}_cut.wav").subclip(0, clip_duration)

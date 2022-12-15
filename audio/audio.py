@@ -7,12 +7,11 @@ from moviepy.video.tools.drawing import color_gradient
 from pydub import AudioSegment
 
 
-def get_timestamps(file):
+def get_timestamps_librosa(file):
     y, sr = lr.load(file)
     onset_env = lr.onset.onset_strength(y=y, sr=sr, aggregate=np.median)
-    tempo, beats = lr.beat.beat_track(bpm=120, y=y, sr=sr, hop_length=512, onset_envelope=onset_env)
+    tempo, ts = lr.beat.beat_track(y=y, sr=sr, units='time')
     print(f'bpm:{tempo}')
-    ts = lr.frames_to_time(beats, sr=sr)
     ts = [0] + ts
     return len(ts), ts
 
