@@ -9,7 +9,7 @@ from pydub import AudioSegment
 
 def get_timestamps_librosa(file):
     y, sr = lr.load(file)
-    onset_env = lr.onset.onset_strength(y=y, sr=sr, aggregate=np.median)
+    #onset_env = lr.onset.onset_strength(y=y, sr=sr, aggregate=np.median)
     tempo, ts = lr.beat.beat_track(y=y, sr=sr, units='time')
     print(f'bpm:{tempo}')
     ts = [0] + ts
