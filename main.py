@@ -33,6 +33,13 @@ if __name__ == '__main__':
     filenames.remove(".DS_Store")
     for file in filenames:
         file = f"{path}/{file}"
+        if file.endswith(".HEIC"):
+            img = Image(filename=file)
+            img.format = 'JPG'
+            os.remove(file)
+            img.save(filename=file.replace(".HEIC", ".JPG"))
+            img.close()
+
         image = PIL.Image.open(file)
         new_image = image.resize((1080, 1920))
         new_image.save(file)
@@ -40,13 +47,6 @@ if __name__ == '__main__':
         if file.endswith(".jpg"):
             os.rename(file, file.replace(".jpg", ".JPG"))
             continue
-        if not file.endswith(".HEIC"):
-            continue
-        img = Image(filename=file)
-        img.format = 'JPG'
-        os.remove(file)
-        img.save(filename=file.replace(".HEIC", ".JPG"))
-        img.close()
     print(filenames)
 
     # for img in filenames:

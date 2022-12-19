@@ -19,7 +19,6 @@ def generate_vid(size=(124, 124), timestamps=[], clip_duration=10, files=[], vid
 
     picture = VideoFileClip("IMG_2059.MOV")
     (w, h) = picture.size
-    picture = crop(picture, x_center=h/2, y_center=w/2, width=w*9/16, height=h*9/16)
     picture = resize(picture, newsize=size)
     picture = picture.set_duration(timestamps[1])
 
@@ -51,7 +50,11 @@ def generate_vid(size=(124, 124), timestamps=[], clip_duration=10, files=[], vid
     audio = AudioFileClip(f"{audio_name}_cut.wav")
     final_video = CompositeVideoClip([picture] + txt_clips)
     final_video = final_video.set_audio(audio)
-    final_video.write_videofile(f"{video_name}.mp4", fps=24, threads=4)
+    final_video.write_videofile(f"{video_name}.mp4", fps=24, threads=4, codec='libx264',
+                                audio_codec='aac',
+                                temp_audiofile='temp-audio.m4a',
+                                remove_temp=True
+                                )
 
 
 if __name__ == '__main__':
